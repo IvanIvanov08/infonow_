@@ -1,6 +1,6 @@
 # infonow_
 
-A new Flutter project.
+It is a new cross-platform application with user-friendly UI and UX, allowing users of all worlds, except individual users under our sanctions, to post, receive and share information while maintaining complete privacy and anonymity. Whether it's Patina Igorevna or Duku D'Lorum, no one will know anything about you without your permission. Earn on Info! Info's perfect payment system gives you a way to provide information for money without fear of losing anything. In 3 days alone, the number of our users across Vaningrad amounted to more than three million. Info.Now_ - share information quickly, conveniently, safely and absolutely free!....
 
 ## Getting Started
 
