@@ -23,6 +23,6 @@ _Бета-версия_ приложения по нашим оценкам ст
 
 ### Warning! 
 
-_10.01_ был создан новый UI. Ознакомиться с ним можно по [ссылке]('https://www.figma.com/file/OLF1rKCrozPrkzXrBJ5m6P/INFONOW_?type=design&node-id=0%3A1&mode=design&t=5HuiEsoq5Hj8dtru-1'). 
+_10.01_ был создан новый UI. Ознакомиться с ним можно по [ссылке](https://www.figma.com/file/OLF1rKCrozPrkzXrBJ5m6P/INFONOW_?type=design&node-id=0%3A1&mode=design&t=5HuiEsoq5Hj8dtru-1). 
 Также вскоре мы опубликуем _видео_ с новым вариантом UI. Он появится в папке _versions_.
 Искренне Ваши, INFO<NOW!>!
