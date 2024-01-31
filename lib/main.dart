@@ -1,495 +1,134 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/io.dart';
 
-var new_list = {
-  "D": [
-    'Duku is shmuda!',
-    'Duku was alert, that he is shmuda!',
-    'Pushonok2010',
-    'https://i.pinimg.com/originals/63/98/2d/63982d3b4bde8799a227dd5fea9149e2.jpg',
-  ],
-  "П": [
-    'Поздравление Патины Игоревны.',
-    'Поздравление Патины Игоревны с Новым Годом!',
-    'PATINGARD OFFICIAL PRESS-SYSTEM',
-    'https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663111546_8-mykaleidoscope-ru-p-moskva-siti-rossiya-dostoprimechatelnosti-8.jpg',
-  ],
-  "Д": [
-    'ДД Новости',
-    'Дом Дракона объявляет о временном прекращение работ и полной изоляции Ванинграда.',
-    'The House Of The Dragon',
-    'https://cdn-icons-png.flaticon.com/512/2548/2548296.png',
-  ]
-};
+void main() => runApp(const MyApp());
 
-var askings = {
-  "Duku": ["How I am?", false],
-};
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-void main() {
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: const Color.fromARGB(255, 67, 91, 103)),
-      home: Bar(),
-    ),
-  );
-}
-
-class Bar_X extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: const Color.fromARGB(255, 67, 91, 103)),
-      home: Scaffold(appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 128, 46, 40),
-            title: const Text('INFO.NOW'),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.add_alert),
-                tooltip: 'Alert checking',
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Checking the news..')));
-                  Navigator.push(context,
-                      MaterialPageRoute<void>(builder: (BuildContext context) {
-                    return Bar();
-                  }));
-                },
-              ),
-              IconButton(
-                  icon: const Icon(Icons.navigate_next),
-                  tooltip: 'Enter',
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute<void>(
-                        builder: (BuildContext context) {
-                      return Scaffold(
-                        appBar: AppBar(
-                          backgroundColor:
-                              const Color.fromARGB(255, 128, 46, 40),
-                          title: const Text('INFO.NOW'),
-                        ),
-                        body: Column(
-                          children: [
-                            Container(
-                              height: 30,
-                            ),
-                            const Text(
-                              'Сейчас вы попали на страницу выбора действий в INFO.NOW. Выберите действие, которое вы хотите выполнить.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            Container(
-                                height: 100,
-                                width: 600,
-                                margin: const EdgeInsets.only(top: 100.0),
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Color.fromARGB(255, 202, 52, 14),
-                                      Color.fromARGB(255, 159, 13, 13),
-                                      Color.fromARGB(255, 194, 20, 20),
-                                    ],
-                                  ),
-                                ),
-                                child: TextButton(
-                                    child: const Text(
-                                      "I'd like to ask some question!",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                      ),
-                                    ),
-                                    onPressed: () => {
-                                          Navigator.push(context,
-                                              MaterialPageRoute<void>(builder:
-                                                  (BuildContext context) {
-                                            return const Asking();
-                                          }))
-                                        })),
-                            Container(
-                                height: 100,
-                                width: 600,
-                                margin: const EdgeInsets.only(top: 20.0),
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Color.fromARGB(255, 202, 52, 14),
-                                      Color.fromARGB(255, 159, 13, 13),
-                                      Color.fromARGB(255, 194, 20, 20),
-                                    ],
-                                  ),
-                                ),
-                                child: TextButton(
-                                    child: const Text(
-                                      "I'd like to answer some question!",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                      ),
-                                    ),
-                                    onPressed: () => {
-                                          Navigator.push(context,
-                                              MaterialPageRoute<void>(builder:
-                                                  (BuildContext context) {
-                                            return QuestionsBox();
-                                          }))
-                                        })),
-                            Container(
-                                height: 100,
-                                width: 600,
-                                margin: const EdgeInsets.only(top: 20.0),
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Color.fromARGB(255, 202, 52, 14),
-                                      Color.fromARGB(255, 159, 13, 13),
-                                      Color.fromARGB(255, 194, 20, 20),
-                                    ],
-                                  ),
-                                ),
-                                child: TextButton(
-                                    child: const Text(
-                                      "I'd like to write some info!",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                      ),
-                                    ),
-                                    onPressed: () => {
-                                          Navigator.push(context,
-                                              MaterialPageRoute<void>(builder:
-                                                  (BuildContext context) {
-                                            return Writing();
-                                          }))
-                                        })),
-                          ],
-                        ),
-                      );
-                    }));
-                  })
-            ]),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Center(
-                  child: Container(
-                padding: const EdgeInsets.all(10.0),
-                margin: const EdgeInsets.all(5.0),
-                child: const Text('NEWS LIST',
-                    textDirection: TextDirection.ltr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    )),
-              )),
-              for (final element in new_list.entries)
-                MaterialBox(
-                  title: element.value[0],
-                  text: element.value[1],
-                  num: element.key,
-                  by: element.value[2],
-                  url: element.value[3],
-                )
-            ],
-          ),
-        ))
+      home: MyHomePage(),
     );
   }
 }
 
-class Bar extends StatelessWidget {
+// ignore: must_be_immutable
+class MyHomePage extends StatefulWidget {
+  WebSocketChannel channel = IOWebSocketChannel.connect(
+      "wss://f9d08db3-f825-4acf-97ea-827e83649559-00-1wy0a08zb2086.kirk.replit.dev");
+
+  MyHomePage({super.key});
+
+  @override
+  MyHomePageState createState() {
+    return MyHomePageState();
+  }
+}
+
+class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 128, 46, 40),
-            title: const Text('INFO.NOW'),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.add_alert),
-                tooltip: 'Alert checking',
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Checking the news..')));
-                  Navigator.push(context,
-                      MaterialPageRoute<void>(builder: (BuildContext context) {
-                    return Bar_X();
-                  }));
-                },
-              ),
-              IconButton(
-                  icon: const Icon(Icons.navigate_next),
-                  tooltip: 'Enter',
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute<void>(
-                        builder: (BuildContext context) {
-                      return Scaffold(
-                        appBar: AppBar(
-                          backgroundColor:
-                              const Color.fromARGB(255, 128, 46, 40),
-                          title: const Text('INFO.NOW'),
-                        ),
-                        body: Column(
-                          children: [
-                            Container(
-                              height: 30,
-                            ),
-                            const Text(
-                              'Сейчас вы попали на страницу выбора действий в INFO.NOW. Выберите действие, которое вы хотите выполнить.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            Container(
-                                height: 100,
-                                width: 600,
-                                margin: const EdgeInsets.only(top: 100.0),
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Color.fromARGB(255, 202, 52, 14),
-                                      Color.fromARGB(255, 159, 13, 13),
-                                      Color.fromARGB(255, 194, 20, 20),
-                                    ],
-                                  ),
-                                ),
-                                child: TextButton(
-                                    child: const Text(
-                                      "I'd like to ask some question!",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                      ),
-                                    ),
-                                    onPressed: () => {
-                                          Navigator.push(context,
-                                              MaterialPageRoute<void>(builder:
-                                                  (BuildContext context) {
-                                            return const Asking();
-                                          }))
-                                        })),
-                            Container(
-                                height: 100,
-                                width: 600,
-                                margin: const EdgeInsets.only(top: 20.0),
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Color.fromARGB(255, 202, 52, 14),
-                                      Color.fromARGB(255, 159, 13, 13),
-                                      Color.fromARGB(255, 194, 20, 20),
-                                    ],
-                                  ),
-                                ),
-                                child: TextButton(
-                                    child: const Text(
-                                      "I'd like to answer some question!",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                      ),
-                                    ),
-                                    onPressed: () => {
-                                          Navigator.push(context,
-                                              MaterialPageRoute<void>(builder:
-                                                  (BuildContext context) {
-                                            return QuestionsBox();
-                                          }))
-                                        })),
-                            Container(
-                                height: 100,
-                                width: 600,
-                                margin: const EdgeInsets.only(top: 20.0),
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Color.fromARGB(255, 202, 52, 14),
-                                      Color.fromARGB(255, 159, 13, 13),
-                                      Color.fromARGB(255, 194, 20, 20),
-                                    ],
-                                  ),
-                                ),
-                                child: TextButton(
-                                    child: const Text(
-                                      "I'd like to write some info!",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                      ),
-                                    ),
-                                    onPressed: () => {
-                                          Navigator.push(context,
-                                              MaterialPageRoute<void>(builder:
-                                                  (BuildContext context) {
-                                            return Writing();
-                                          }))
-                                        })),
-                          ],
-                        ),
-                      );
-                    }));
-                  })
-            ]),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Center(
-                  child: Container(
-                padding: const EdgeInsets.all(10.0),
-                margin: const EdgeInsets.all(5.0),
-                child: const Text('NEWS LIST',
-                    textDirection: TextDirection.ltr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    )),
-              )),
-              for (final element in new_list.entries)
-                MaterialBox(
-                  title: element.value[0],
-                  text: element.value[1],
-                  num: element.key,
-                  by: element.value[2],
-                  url: element.value[3],
-                )
-            ],
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text("INFO.<NOW!>",
+            style: TextStyle(
+              color: Colors.white,
+            )),
+        backgroundColor: const Color.fromARGB(255, 169, 13, 2),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.replay_10_outlined, color: Colors.white),
+            onPressed: sendData,
           ),
-        ));
+          IconButton(
+            icon: Icon(Icons.add, color: Colors.white),
+            onPressed: () => {
+              Navigator.push(context,
+                  MaterialPageRoute<void>(builder: (BuildContext context) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: const Text("INFO.<NOW!>",
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                    backgroundColor: const Color.fromARGB(255, 169, 13, 2),
+                    centerTitle: true,
+                  ),
+                  body: Writing(),
+                );
+              })),
+            },
+          ),
+        ],
+      ),
+      body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Center(
+                    child: Text('NEWS LIST',
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ))),
+                StreamBuilder(
+                  stream: widget.channel.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot.data != null) {
+                      final list = snapshot.data
+                          .split('|')
+                          .map((res) => res.split('&'))
+                          .toList();
+                      list.removeAt(list.length - 1);
+                      print(list);
+
+                      return Column(children: [
+                        for (final element in list)
+                          MaterialBox(
+                              title: element[1],
+                              by: element[3],
+                              num: element[0],
+                              text: element[2],
+                              url: element[4])
+                      ]);
+                    }
+
+                    return const Column(
+                      children: [
+                        Padding(padding: EdgeInsets.all(10.0)),
+                        Text('LOADING...',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 25)),
+                        Text(
+                            'If the download becomes endless, click on REPLAY.',
+                            style: TextStyle(color: Colors.white, fontSize: 25))
+                      ],
+                    );
+                  },
+                )
+              ],
+            ),
+          )),
+    );
   }
-}
 
-class Writing extends StatefulWidget {
-  const Writing({Key? key}) : super(key: key);
-
-  @override
-  State<Writing> createState() => _WritingState();
-}
-
-class _WritingState extends State<Writing> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final name = TextEditingController();
-  final info = TextEditingController();
-  final url = TextEditingController();
-  final h = TextEditingController();
+  void sendData() {
+    widget.channel.sink.add("GET_INFO");
+  }
 
   @override
   void dispose() {
-    name.dispose();
+    widget.channel.sink.close();
     super.dispose();
-    info.dispose();
-    url.dispose();
-    h.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.arrow_back_outlined),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-          title: const Text(
-            'Writing ~ INFO.NOW',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: const Color.fromARGB(255, 128, 46, 40),
-        ),
-        body: Container(
-          color: Color.fromARGB(255, 12, 19, 23),
-          child: Container(
-            margin: const EdgeInsets.all(30),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TextFormField(
-                    controller: h,
-                    style: TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                        hintText: 'Header',
-                        helperText: 'Enter your header',
-                        border: OutlineInputBorder()),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: name,
-                    style: TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                        hintText: 'Nickname',
-                        helperText: 'Enter your nickname',
-                        border: OutlineInputBorder()),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  Container(height: 10),
-                  TextFormField(
-                    controller: info,
-                    style: TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                        hintText: 'Info',
-                        helperText: 'Enter your info ',
-                        border: OutlineInputBorder()),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: url,
-                    style: TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                        hintText: 'URL',
-                        helperText: 'Enter your url',
-                        border: OutlineInputBorder()),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Center(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              new_list[h.text[0]] = [
-                                h.text,
-                                info.text,
-                                name.text,
-                                url.text
-                              ];
-                              print(new_list);
-                            },
-                            child: const Text('Submit'))),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 
@@ -535,7 +174,7 @@ class MaterialBox extends StatelessWidget {
                     MaterialPageRoute<void>(builder: (BuildContext context) {
                   return NewsPage(
                       text: text, title: title, num: num, by: by, url: url);
-                }))
+                })),
               },
             ),
           ),
@@ -587,9 +226,10 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
-          title: Text('New #$num by $by'),
-          backgroundColor: const Color.fromARGB(255, 128, 46, 40),
+          title: Text('By $by'),
+          backgroundColor: const Color.fromARGB(255, 169, 13, 2),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -599,20 +239,35 @@ class NewsPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30,
+                  color: Colors.white,
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(5.0),
-                height: 300,
-                color: const Color.fromARGB(255, 128, 46, 40),
-                child: Image.network(url),
-              ),
+                  margin: const EdgeInsets.all(5.0),
+                  height: 300,
+                  color: const Color.fromARGB(255, 169, 13, 2),
+                  child: Image.network(url, loadingBuilder:
+                      (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  })),
               Container(height: 10),
               Text(
                 text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
+                  color: Colors.white,
                 ),
               )
             ],
@@ -621,165 +276,144 @@ class NewsPage extends StatelessWidget {
   }
 }
 
-class Asking extends StatefulWidget {
-  const Asking({Key? key}) : super(key: key);
+class Writing extends StatefulWidget {
+  WebSocketChannel channel = IOWebSocketChannel.connect(
+      "wss://f9d08db3-f825-4acf-97ea-827e83649559-00-1wy0a08zb2086.kirk.replit.dev");
 
   @override
-  State<Asking> createState() => _AskingState();
+  State<Writing> createState() => _WritingState();
 }
 
-class _AskingState extends State<Asking> {
+class _WritingState extends State<Writing> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final name = TextEditingController();
-  final question = TextEditingController();
+  final info = TextEditingController();
+  final url = TextEditingController();
+  final h = TextEditingController();
 
   @override
   void dispose() {
     name.dispose();
     super.dispose();
-    question.dispose();
+    info.dispose();
+    url.dispose();
+    h.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.arrow_back_outlined),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-          title: const Text(
-            'Asking ~ INFO.NOW',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: const Color.fromARGB(255, 128, 46, 40),
-        ),
-        body: Container(
-          color: Color.fromARGB(255, 12, 19, 23),
-          child: Container(
-            margin: const EdgeInsets.all(30),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TextFormField(
-                    controller: name,
-                    style: TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                        hintText: 'Nickname',
-                        helperText: 'Enter your nickname',
-                        border: OutlineInputBorder()),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  Container(height: 10),
-                  TextFormField(
-                    controller: question,
-                    style: TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                        hintText: 'Question',
-                        helperText: 'Enter your question',
-                        border: OutlineInputBorder()),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Center(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              askings[name.text] = [question.text, false];
-                            },
-                            child: const Text('Submit'))),
-                  ),
-                ],
+    return SingleChildScrollView(
+        child: Container(
+      color: Color.fromARGB(255, 255, 255, 255),
+      child: Container(
+        margin: const EdgeInsets.all(30),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                controller: h,
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                decoration: const InputDecoration(
+                    hintText: 'Header',
+                    helperText: 'Enter your header',
+                    border: OutlineInputBorder()),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
               ),
-            ),
+              TextFormField(
+                controller: name,
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                decoration: const InputDecoration(
+                    hintText: 'Nickname',
+                    helperText: 'Enter your nickname',
+                    border: OutlineInputBorder()),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              Container(height: 10),
+              TextFormField(
+                controller: info,
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                decoration: const InputDecoration(
+                    hintText: 'Info',
+                    helperText: 'Enter your info ',
+                    border: OutlineInputBorder()),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: url,
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                decoration: const InputDecoration(
+                    hintText: 'URL',
+                    helperText: 'Enter your url',
+                    border: OutlineInputBorder()),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Center(
+                      child: ElevatedButton(
+                    onPressed: () {
+                      var head = h.text;
+                      var inf = info.text;
+                      var n = name.text;
+                      var uri = url.text;
+
+                      String req = '$head&$inf&$n&$uri';
+                      print(req);
+
+                      if (req != " ") {
+                        sendMessage(req);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Your info appended free!')));
+                      }
+                    },
+                    child: Text("Append!"),
+                  ))),
+            ],
           ),
         ),
       ),
-    );
+    ));
   }
 }
 
-class QuestionsBox extends StatelessWidget {
-  const QuestionsBox({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          appBar: AppBar(
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.arrow_back_outlined),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-            title: const Text(
-              'Questions ~ INFO.NOW',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            backgroundColor: const Color.fromARGB(255, 128, 46, 40),
-          ),
-          body: Container(
-              child: Column(
-            children: [
-              for (final element in askings.entries)
-                Question(
-                    answer: element.value[1] as bool,
-                    question: element.value[0] as String,
-                    name: element.key)
-            ],
-          ))),
-    );
+void sendMessage(msg) {
+  IOWebSocketChannel? channel;
+  try {
+    channel = IOWebSocketChannel.connect(
+        'wss://f9d08db3-f825-4acf-97ea-827e83649559-00-1wy0a08zb2086.kirk.replit.dev');
+  } catch (e) {
+    print("Error on connecting to websocket: " + e.toString());
   }
-}
+  channel?.sink.add(msg);
 
-class Question extends StatelessWidget {
-  final String name;
-  final String question;
-  final bool answer;
-
-  Question({
-    required this.name,
-    required this.question,
-    required this.answer,
+  channel?.stream.listen((event) {
+    if (event!.isNotEmpty) {
+      print(event);
+      channel!.sink.close();
+    }
   });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Text('Written by $name;'),
-          Text('Question is answered: $answer'),
-          Text('Question: $question'),
-          TextButton(
-            child: Text('Answer!'),
-            onPressed: () => {},
-          ),
-        ],
-      ),
-    );
-  }
 }
